@@ -5,14 +5,6 @@
 }
 :root {
   font-size: 62.5%;
-  --font-color: hsl(240, 6%, 21%);
-  --button-bg: hsl(240, 9%, 89%);
-  --select-button-bg: hsl(194 97% 31%);
-  --svg-fill-bg: white;
-
-  --background-dark-mode: hsl(240, 5%, 7%);
-  --font-color-dk: white;
-  --select-button-bg-dk: hsl(195, 74%, 15%);
 }
 body {
   display: flex;
@@ -30,6 +22,19 @@ body {
 
   height: 100vh;
   width: 100vw;
+}
+.light-mode {
+  --font-color: hsl(240, 6%, 21%);
+  --button-bg: hsl(240, 9%, 89%);
+  --select-button-bg: hsl(194 97% 31%);
+  --svg-fill-bg: #323238;
+}
+.dark-mode {
+  background: hsl(240, 5%, 7%);
+  --font-color: white;
+  --button-bg: hsl(240, 6%, 17%);
+  --select-button-bg: hsl(195, 74%, 15%);
+  --svg-fill-bg: white;
 }
 
 .hide {
@@ -65,6 +70,7 @@ aside {
   flex-wrap: wrap;
   width: 30.8rem;
   gap: 3.2rem;
+  justify-content: center;
 }
 aside button {
   background-color: var(--button-bg);
@@ -76,17 +82,17 @@ aside button {
   border-radius: 20px;
 }
 button svg path {
-  fill: #323238;
+  fill: var(--svg-fill-bg);
 }
 
 .selected {
   background-color: var(--select-button-bg);
 }
 .selected svg path {
-  fill: var(--svg-fill-bg);
+  fill: white;
 }
 
-.buttonMode {
+.button-mode {
   position: absolute;
   top: 4rem;
   right: 4rem;
