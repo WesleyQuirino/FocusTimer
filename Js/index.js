@@ -6,38 +6,41 @@ const bttFlorest = document.querySelector(".florest")
 const bttRain = document.querySelector(".rain")
 const bttCoffeeShop = document.querySelector(".cofee-shop")
 const bttFire = document.querySelector(".fire")
-const bttDarkmode = document.querySelector(".darkMode")
 
 let minutesDisplay = document.querySelector(".minutes")
 let secondsDisplay = document.querySelector(".seconds")
 
 let minutes = Number(minutesDisplay.textContent)
-
 let newMinutes
 let timerTimeOut
-
-//Events
 //Timer controls
 bttPlay.addEventListener("click", handlePlay)
 bttStop.addEventListener("click", handlePause)
 bttStop.addEventListener("dblclick", handleReset)
 bttAdd.addEventListener("click", handleAddMinutes)
 bttSubtract.addEventListener("click", handleSubtractMinutes)
-
-//Audio controls
-bttFlorest.addEventListener("click", handleFlorestAudio)
-bttRain.addEventListener("click", handleRainAudio)
-bttCoffeeShop.addEventListener("click", handleCoffeeShopAudio)
-bttFire.addEventListener("click", handleFireAudio)
-//Audios
-
-const florest = new Audio("./Assets/Floresta.wav")
-const rain = new Audio("./Assets/Chuva.wav")
-const coffeeShop = new Audio("./Assets/Cafeteria.wav")
-const fire = new Audio("./Assets/Lareira.wav")
-
-//Functions
 //Timer functions
+function countdown() {
+  let seconds = Number(secondsDisplay.textContent)
+  let minutes = Number(minutesDisplay.textContent)
+
+  timerTimeOut = setTimeout(function () {
+    if (minutes == 0 && seconds == 0) {
+      minutesDisplay.textContent = String(newMinutes).padStart(2, "0")
+      secondsDisplay.textContent = "00"
+
+      return
+    }
+
+    if (seconds <= 0) {
+      seconds = 60
+      minutesDisplay.textContent = String(minutes - 1).padStart(2, "0")
+    }
+    secondsDisplay.textContent = String(seconds - 1).padStart(2, "0")
+
+    countdown()
+  }, 1000)
+}
 function handlePlay() {
   if (newMinutes === 0 || newMinutes === undefined) {
     alert("Favor adicionar a quantidade de tempo")
@@ -45,7 +48,6 @@ function handlePlay() {
   }
   countdown()
 }
-
 function handlePause() {
   clearTimeout(timerTimeOut)
 }
@@ -57,14 +59,12 @@ function handleReset() {
   minutesDisplay.textContent = String(newMinutes).padStart(2, "0")
   secondsDisplay.textContent = String(0).padStart(2, "0")
 }
-
 function handleAddMinutes() {
   const addFiveMinutes = 5
   newMinutes = Number(minutesDisplay.textContent) + addFiveMinutes
 
   minutesDisplay.textContent = String(newMinutes).padStart(2, "0")
 }
-
 function handleSubtractMinutes() {
   const subtractFiveMinutes = 5
   if (newMinutes === 0 || newMinutes === undefined) {
@@ -87,63 +87,51 @@ function handleSubtractMinutes() {
   minutesDisplay.textContent = String(newMinutes).padStart(2, "0")
 }
 
-function countdown() {
-  let seconds = Number(secondsDisplay.textContent)
-  let minutes = Number(minutesDisplay.textContent)
-
-  timerTimeOut = setTimeout(function () {
-    if (minutes == 0 && seconds == 0) {
-      minutesDisplay.textContent = String(newMinutes).padStart(2, "0")
-      secondsDisplay.textContent = "00"
-      pauseAudio()
-
-      return
-    }
-
-    if (seconds <= 0) {
-      seconds = 2
-      minutesDisplay.textContent = String(minutes - 1).padStart(2, "0")
-    }
-    secondsDisplay.textContent = String(seconds - 1).padStart(2, "0")
-
-    countdown()
-  }, 1000)
-}
-
+//Audios
+const florest = new Audio("./Assets/Floresta.wav")
+const rain = new Audio("./Assets/Chuva.wav")
+const coffeeShop = new Audio("./Assets/Cafeteria.wav")
+const fire = new Audio("./Assets/Lareira.wav")
+//Audio controls
+bttFlorest.addEventListener("click", handleFlorestAudio)
+bttRain.addEventListener("click", handleRainAudio)
+bttCoffeeShop.addEventListener("click", handleCoffeeShopAudio)
+bttFire.addEventListener("click", handleFireAudio)
 //Audio functions
-function handleFlorestAudio() {
-  if (bttFlorest.classList.contains("selected")) {
-    florest.pause()
-    bttFlorest.classList.toggle("selected")
+function audioSelected(buttonSelected, audioName) {
+  if (buttonSelected.classList.contains("selected")) {
+    audioName.pause()
+    buttonSelected.classList.toggle("selected")
     return
   }
-  bttFlorest.classList.toggle("selected")
-  florest.play().bttFlorest.classList.toggle("selected")
+  buttonSelected.classList.toggle("selected")
+  audioName.play().buttonSelected.classList.toggle("selected")
+}
+function handleFlorestAudio() {
+  audioSelected(bttFlorest, florest)
 }
 function handleRainAudio() {
-  if (bttRain.classList.contains("selected")) {
-    rain.pause()
-    bttRain.classList.toggle("selected")
-    return
-  }
-  bttRain.classList.toggle("selected")
-  rain.play().bttRain.classList.toggle("selected")
+  audioSelected(bttRain, rain)
 }
 function handleCoffeeShopAudio() {
-  if (bttCoffeeShop.classList.contains("selected")) {
-    coffeeShop.pause()
-    bttCoffeeShop.classList.toggle("selected")
-    return
-  }
-  bttCoffeeShop.classList.toggle("selected")
-  coffeeShop.play().bttCoffeeShop.classList.toggle("selected")
+  audioSelected(bttCoffeeShop, coffeeShop)
 }
 function handleFireAudio() {
-  if (bttFire.classList.contains("selected")) {
-    fire.pause()
-    bttFire.classList.toggle("selected")
-    return
-  }
-  bttFire.classList.toggle("selected")
-  fire.play().bttFire.classList.toggle("selected")
+  audioSelected(bttFire, fire)
+}
+
+//Display mode
+const bodyMode = document.querySelector("body")
+const bttMode = document.querySelector(".button-mode")
+const bttLightModeIcon = document.querySelector(".light-mode-icon")
+const bttDarkModeIcon = document.querySelector(".dark-mode-icon")
+//Display events
+bttMode.addEventListener("click", displayMode)
+//Display functions
+function displayMode() {
+  bodyMode.classList.toggle("light-mode")
+  bttLightModeIcon.classList.toggle("hide")
+
+  bodyMode.classList.toggle("dark-mode")
+  bttDarkModeIcon.classList.toggle("hide")
 }
