@@ -73,10 +73,13 @@ aside {
   justify-content: center;
 }
 aside button {
+  display: grid;
+  justify-items: center;
+  padding: 2rem;
   background-color: var(--button-bg);
 
-  height: clamp(4rem, 40vh, 12rem);
-  width: clamp(3.44rem, 33vw, 10rem);
+  height: clamp(4rem, 40vh, 13rem);
+  width: clamp(3.44rem, 33vw, 11rem);
 
   border: none;
   border-radius: 20px;
@@ -85,8 +88,30 @@ button svg path {
   fill: var(--svg-fill-bg);
 }
 
+input[type="range"] {
+  appearance: none;
+  margin-top: 2rem;
+  border-radius: 20px;
+  background-color: var(--svg-fill-bg);
+  height: 0.3rem;
+  width: 100%;
+}
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+
+  height: 1rem;
+  width: 1rem;
+
+  border-radius: 50%;
+  background-color: var(--svg-fill-bg);
+}
+
 .selected {
   background-color: var(--select-button-bg);
+}
+.selected input,
+.selected input[type="range"]::-webkit-slider-thumb {
+  background-color: white;
 }
 .selected svg path {
   fill: white;

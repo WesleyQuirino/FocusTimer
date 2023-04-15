@@ -2,10 +2,7 @@ const bttPlay = document.querySelector(".play")
 const bttStop = document.querySelector(".stop")
 const bttAdd = document.querySelector(".add")
 const bttSubtract = document.querySelector(".subtract")
-const bttFlorest = document.querySelector(".florest")
-const bttRain = document.querySelector(".rain")
-const bttCoffeeShop = document.querySelector(".cofee-shop")
-const bttFire = document.querySelector(".fire")
+const timerEndAudio = new Audio("./Assets/KichenTimer.mp3")
 
 let minutesDisplay = document.querySelector(".minutes")
 let secondsDisplay = document.querySelector(".seconds")
@@ -28,7 +25,7 @@ function countdown() {
     if (minutes == 0 && seconds == 0) {
       minutesDisplay.textContent = String(newMinutes).padStart(2, "0")
       secondsDisplay.textContent = "00"
-
+      timerEndAudio.play()
       return
     }
 
@@ -87,37 +84,61 @@ function handleSubtractMinutes() {
   minutesDisplay.textContent = String(newMinutes).padStart(2, "0")
 }
 
-//Audios
+//Audio
+//Audio controls
+const volumeControlFlorest = document.getElementById("volume-florest")
+const volumeControlRain = document.getElementById("volume-rain")
+const volumeControlCoffeeShop = document.getElementById("volume-coffee")
+const volumeControlFire = document.getElementById("volume-fire")
+
+const bttFlorest = document.querySelector(".florest")
+const bttRain = document.querySelector(".rain")
+const bttCoffeeShop = document.querySelector(".coffee-shop")
+const bttFire = document.querySelector(".fire")
+
 const florest = new Audio("./Assets/Floresta.wav")
 const rain = new Audio("./Assets/Chuva.wav")
 const coffeeShop = new Audio("./Assets/Cafeteria.wav")
 const fire = new Audio("./Assets/Lareira.wav")
-//Audio controls
+//Audio events
+volumeControlFlorest.addEventListener("change", (e) => {
+  florest.volume = e.currentTarget.value / 100
+  e.stopPropagation()
+})
+volumeControlRain.addEventListener("change", (e) => {
+  rain.volume = e.currentTarget.value / 100
+})
+volumeControlCoffeeShop.addEventListener("change", (e) => {
+  coffeeShop.volume = e.currentTarget.value / 100
+})
+volumeControlFire.addEventListener("change", (e) => {
+  fire.volume = e.currentTarget.value / 100
+})
+
 bttFlorest.addEventListener("click", handleFlorestAudio)
 bttRain.addEventListener("click", handleRainAudio)
 bttCoffeeShop.addEventListener("click", handleCoffeeShopAudio)
 bttFire.addEventListener("click", handleFireAudio)
 //Audio functions
 function audioSelected(buttonSelected, audioName) {
-  if (buttonSelected.classList.contains("selected")) {
-    audioName.pause()
-    buttonSelected.classList.toggle("selected")
-    return
-  }
-  buttonSelected.classList.toggle("selected")
-  audioName.play().buttonSelected.classList.toggle("selected")
+  buttonSelected.classList.add("selected")
+  audioName.play()
+  audioName.addEventListener("ended", () => {
+    buttonSelected.classList.remove
+    ("selected")
+  })
 }
-function handleFlorestAudio() {
-  audioSelected(bttFlorest, florest)
+function handleFlorestAudio({ target }) {
+  audioSelected(bttFlorest, florest, target)
 }
-function handleRainAudio() {
+function handleRainAudio({ target }) {
   audioSelected(bttRain, rain)
 }
-function handleCoffeeShopAudio() {
-  audioSelected(bttCoffeeShop, coffeeShop)
+function handleCoffeeShopAudio({ target }) {
+  audioSelected(bttCoffeeShop, coffeeShop, target)
 }
-function handleFireAudio() {
-  audioSelected(bttFire, fire)
+function handleFireAudio({ target }) {
+  audioSelected(bttFire, fire, target)
 }
 
 //Display mode
